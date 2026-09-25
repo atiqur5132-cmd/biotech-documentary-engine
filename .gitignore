@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+
+# Remotion build and cache
+.remotion/
+out/
+dist/
+
+# Large uncompressed audio (use mp3 instead)
+*.wav
+
+# Intermediate crystallographic downloads
+*.cif
+
+# Temporary preview stills and visual verifications
+still_*.png
+verify_*.png
+
+# Environment & OS
+.env
+.env.local
+.DS_Store
+Thumbs.db

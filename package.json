@@ -1,0 +1,23 @@
+{
+  "name": "biotech-documentary-engine",
+  "version": "1.0.0",
+  "description": "Scientist-Grade AI x Biotech & Computational Biology Documentary Production Engine",
+  "scripts": {
+    "start": "remotion preview",
+    "build": "remotion render MainVideo out/video.mp4",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.260",
+    "@remotion/media-utils": "^4.0.260",
+    "lucide-react": "^1.16.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "remotion": "^4.0.260"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.7.0"
+  }
+}
