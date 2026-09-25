@@ -1,0 +1,54 @@
+name: Render Remotion Video (Cloud)
+
+on:
+  workflow_dispatch:
+    inputs:
+      composition:
+        description: 'Composition to render'
+        required: true
+        default: 'AnthropicArtDocumentary'
+      output_filename:
+        description: 'Output MP4 filename'
+        required: true
+        default: 'anthropic_art_documentary.mp4'
+      concurrency:
+        description: 'Render Concurrency'
+        required: false
+        default: '4'
+
+jobs:
+  render:
+    name: Render Video in Cloud
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install system dependencies for Chromium & Remotion
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg libnss3 libatk-bridge2.0-0 libdrm2 libxkbcommon0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libgbm1 libasound2
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Ensure Chrome Headless Shell
+        run: npx remotion browser ensure
+
+      - name: Render Full MP4 Video
+        run: |
+          mkdir -p out
+          npx remotion render ${{ inputs.composition || 'AnthropicArtDocumentary' }} out/${{ inputs.output_filename || 'anthropic_art_documentary.mp4' }} --concurrency=${{ inputs.concurrency || '4' }}
+
+      - name: Upload Rendered MP4 Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.composition || 'AnthropicArtDocumentary' }}-MP4
+          path: out/${{ inputs.output_filename || 'anthropic_art_documentary.mp4' }}
+          retention-days: 14
