@@ -14,7 +14,7 @@ on:
       concurrency:
         description: 'Render Concurrency'
         required: false
-        default: '4'
+        default: '2'
 
 jobs:
   render:
@@ -30,11 +30,6 @@ jobs:
           node-version: 20
           cache: 'npm'
 
-      - name: Install system dependencies for Chromium & Remotion
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y ffmpeg libnss3 libatk-bridge2.0-0 libdrm2 libxkbcommon0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libgbm1 libasound2
-
       - name: Install dependencies
         run: npm install
 
@@ -44,7 +39,7 @@ jobs:
       - name: Render Full MP4 Video
         run: |
           mkdir -p out
-          npx remotion render ${{ inputs.composition || 'AnthropicArtDocumentary' }} out/${{ inputs.output_filename || 'anthropic_art_documentary.mp4' }} --concurrency=${{ inputs.concurrency || '4' }}
+          npx remotion render ${{ inputs.composition || 'AnthropicArtDocumentary' }} out/${{ inputs.output_filename || 'anthropic_art_documentary.mp4' }} --concurrency=${{ inputs.concurrency || '2' }}
 
       - name: Upload Rendered MP4 Artifact
         uses: actions/upload-artifact@v4
